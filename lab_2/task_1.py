@@ -1,6 +1,3 @@
-# 1.Зчитати файл text5.
-# б) позначити частини мови;
-
 from nltk import *
 from nltk.stem.snowball import EnglishStemmer
 
