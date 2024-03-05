@@ -4,7 +4,7 @@ from nltk.corpus import brown
 
 def do():
     # a
-    adventure_texts = brown.fileids(categories=['adventure'])
+    adventure_texts = brown.fileids(categories='adventure')
     tenth_adventure_words_list = brown.words(adventure_texts[9])
     tenth_adventure_text = ' '.join(tenth_adventure_words_list)
     with open('files/10_adventure_text.txt', 'w') as file:
@@ -16,7 +16,6 @@ def do():
     for sentence in tenth_adventure_sentence[:-1]:
         print(sentence)
         tenth_adventure_words_tokenize += whitespace_wt.tokenize(sentence)
-
     with open('files/new_10_adventure_text.txt', 'w') as file:
         for sentence in tenth_adventure_sentence[:-1]:
             file.write(sentence)
@@ -27,6 +26,7 @@ def do():
         if pair[1] == "ADJ":
             tenth_adventure_words_tokenize.remove(pair[0])
     tenth_adventure_ADJ_deleted_text = ' '.join(tenth_adventure_words_tokenize)
+    print("\nречення без прикметників")
     print(tenth_adventure_ADJ_deleted_text)
 
     with open('files/10_adventure_ADJ_deleted_text.txt', 'w') as file:
