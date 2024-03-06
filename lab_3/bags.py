@@ -14,7 +14,7 @@ def bag_of_bigrams(prepared_corpus):
     return pd.DataFrame(matrix.toarray(), columns=cv.get_feature_names_out())
 
 
-def phrase_vector(prepared_corpus, phrase):
+def bigram_phrase_vector(prepared_corpus, phrase):
     cv = CountVectorizer(ngram_range=(2, 2))
     df = pd.DataFrame(cv.fit_transform(prepared_corpus).toarray(), columns=cv.get_feature_names_out())
     vector = df[phrase.lower()].tolist()
