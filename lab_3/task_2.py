@@ -14,6 +14,6 @@ def clusterizate(prepared_corpus):
     from sklearn.cluster import AgglomerativeClustering
     tv = TfidfVectorizer(min_df=0., max_df=1., norm='l2', use_idf=True, smooth_idf=True)
     tfidf_matrix = tv.fit_transform(prepared_corpus)
-    clustering = AgglomerativeClustering(n_clusters=2)
+    clustering = AgglomerativeClustering(n_clusters=3)
     clusters = clustering.fit_predict(tfidf_matrix.toarray())
     return clusters
