@@ -3,6 +3,7 @@ import pandas as pd
 import text_pre_processing as tpp
 import bags
 import task_2 as t2
+import task_3 as t3
 
 
 with open('files/doc5.txt', 'r') as file:
@@ -27,8 +28,7 @@ clusters = t2.clusterizate(prepared_corpus)
 cluster_labels = pd.DataFrame(clusters, columns=['cluster'])
 df1_with_clusters = pd.concat([df1, cluster_labels], axis=1)
 print(df1_with_clusters)
-for i, doc in enumerate(corpus):
-    print(f"Document {i+1} belongs to Cluster {clusters[i]}")
 
 # 3
-
+w2v_model = t3.to_Word2Vec(prepared_corpus)
+t3.task_3(w2v_model)
