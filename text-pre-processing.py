@@ -15,6 +15,6 @@ def start_preprocessing(doc):
 
 
 def end_preprocessing(doc):
-    prepared_corpus = np.vectorize(start_preprocessing)(corpus)
+    prepared_corpus = np.vectorize(start_preprocessing)(doc)
     return prepared_corpus
 
