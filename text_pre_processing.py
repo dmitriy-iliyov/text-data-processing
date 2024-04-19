@@ -4,6 +4,7 @@ from nltk.corpus import stopwords
 
 
 def start_preprocessing(doc):
+    doc = re.sub(r'http[s]?://\S+|www\.\S+', '', doc)
     doc = re.sub(r'[^a-zA-Z\s]', '', doc, re.I | re.A)
     doc = doc.lower()
     doc = doc.strip()
@@ -17,4 +18,3 @@ def start_preprocessing(doc):
 def end_preprocessing(doc):
     prepared_corpus = np.vectorize(start_preprocessing)(doc)
     return prepared_corpus
-
