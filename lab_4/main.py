@@ -3,10 +3,10 @@ import sys
 import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import LinearSVC
-
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
@@ -51,5 +51,15 @@ svm = LinearSVC()
 svm.fit(cv_learn_features, learn_label_names)
 svm_test_score = svm.score(cv_test_features, test_label_names)
 print('Support vector machines algorithm test accuracy: ', svm_test_score)
+
+# GridSearchCV update
+param_grid = {'C': [0.1, 1, 10], 'kernel': ['linear', 'rbf']}
+grid_search = GridSearchCV(LinearSVC(), param_grid, cv=5)
+grid_search.fit(cv_learn_features, learn_label_names)
+best_svc_model = grid_search.best_estimator_
+best_svc_pred = best_svc_model.predict(cv_learn_features)
+best_svc_accuracy = accuracy_score(learn_label_names, best_svc_pred)
+
+print("Best Accuracy of Support Vector Classifier after GridSearchCV:", best_svc_accuracy)
 
 
