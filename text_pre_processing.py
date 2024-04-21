@@ -1,6 +1,8 @@
 import numpy as np
+import pandas as pd
 from nltk import *
 from nltk.corpus import stopwords
+import re
 
 
 def start_pre_processing(doc):
@@ -16,5 +18,12 @@ def start_pre_processing(doc):
 
 
 def do_pre_processing(doc):
-    prepared_corpus = np.vectorize(start_pre_processing)(doc)
-    return prepared_corpus
+    if isinstance(doc, pd.Series):
+        prepared_corpus = doc.apply(lambda x: start_pre_processing(x))
+        return prepared_corpus
+    elif isinstance(doc, str):
+        sentences = doc.split('.')
+        prepared_corpus = [start_pre_processing(sentence) for sentence in sentences]
+        prepared_corpus = ' '.join(list(filter(None, prepared_corpus)))
+        return prepared_corpus
+
