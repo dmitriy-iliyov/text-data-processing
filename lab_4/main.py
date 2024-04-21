@@ -6,7 +6,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.svm import LinearSVC
+from sklearn.svm import LinearSVC, SVC
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
@@ -22,7 +22,7 @@ pd.set_option('display.width', 1000)
 data_df = pd.read_csv('files/science.csv')
 data_df = data_df[:100]
 data_df = data_df[~(data_df.Comment.str.strip() == '')]
-prepared_corpus = tpp.end_preprocessing(data_df['Comment'])
+prepared_corpus = tpp.do_pre_processing(data_df['Comment'])
 data_df.insert(loc=2, column='Clean Comment', value=prepared_corpus)
 data_df = data_df.replace(r'^(\s?)+$', np.nan, regex=True)
 data_df = data_df.dropna().reset_index(drop=True)
@@ -54,7 +54,7 @@ print('Support vector machines algorithm test accuracy: ', svm_test_score)
 
 # GridSearchCV update
 param_grid = {'C': [0.1, 1, 10], 'kernel': ['linear', 'rbf']}
-grid_search = GridSearchCV(LinearSVC(), param_grid, cv=5)
+grid_search = GridSearchCV(SVC(), param_grid, cv=5)
 grid_search.fit(cv_learn_features, learn_label_names)
 best_svc_model = grid_search.best_estimator_
 best_svc_pred = best_svc_model.predict(cv_learn_features)
