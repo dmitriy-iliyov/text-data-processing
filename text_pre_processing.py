@@ -1,8 +1,8 @@
+import re
 import numpy as np
 import pandas as pd
 from nltk import *
 from nltk.corpus import stopwords
-import re
 
 
 def start_pre_processing(doc):
