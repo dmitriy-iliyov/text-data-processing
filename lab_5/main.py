@@ -13,8 +13,8 @@ t1.do_task_1()
 
 # task 2
 moby_dick = gutenberg.raw('melville-moby_dick.txt')
-# result = t2.do_task_2(moby_dick)
-# print(result)
+result = t2.do_task_2(moby_dick)
+print(result)
 
 
 
