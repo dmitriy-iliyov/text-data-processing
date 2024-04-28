@@ -5,7 +5,7 @@ from nltk import *
 from nltk.corpus import stopwords
 
 
-def start_pre_processing(doc):
+def _start_pre_processing(doc):
     doc = re.sub(r'http[s]?://\S+|www\.\S+', '', doc)
     doc = re.sub(r'[^a-zA-Z\s]', '', doc, re.I | re.A)
     doc = doc.lower()
@@ -17,13 +17,30 @@ def start_pre_processing(doc):
     return doc
 
 
+def _pdSeries_pre_processing(series):
+    prepared_corpus = series.apply(lambda x: _start_pre_processing(x))
+    return prepared_corpus
+
+
+def _str_pre_processing(_str):
+    sentences = _str.split('.')
+    prepared_corpus = [_start_pre_processing(sentence) for sentence in sentences]
+    prepared_corpus = ' '.join(list(filter(None, prepared_corpus)))
+    return prepared_corpus
+
+
+def _list_pre_processing(_list):
+    return [_start_pre_processing(element) for element in doc]
+
+
 def do_pre_processing(doc):
     if isinstance(doc, pd.Series):
-        prepared_corpus = doc.apply(lambda x: start_pre_processing(x))
-        return prepared_corpus
+        _pdSeries_pre_processing(doc)
     elif isinstance(doc, str):
-        sentences = doc.split('.')
-        prepared_corpus = [start_pre_processing(sentence) for sentence in sentences]
-        prepared_corpus = ' '.join(list(filter(None, prepared_corpus)))
-        return prepared_corpus
+        _str_pre_processing(doc)
+    elif isinstance(doc, list):
+        _list_pre_processing(doc)
+    else:
+        print("ERROR:   TextPreProcessor can't prepare this type of data.")
+        return None
 
