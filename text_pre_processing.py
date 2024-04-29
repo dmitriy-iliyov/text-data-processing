@@ -35,11 +35,11 @@ def _list_pre_processing(_list):
 
 def do_pre_processing(doc):
     if isinstance(doc, pd.Series):
-        _pdSeries_pre_processing(doc)
+        return _pdSeries_pre_processing(doc)
     elif isinstance(doc, str):
-        _str_pre_processing(doc)
+        return _str_pre_processing(doc)
     elif isinstance(doc, list):
-        _list_pre_processing(doc)
+        return _list_pre_processing(doc)
     else:
         print("ERROR:   TextPreProcessor can't prepare this type of data.")
         return None
