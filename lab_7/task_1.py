@@ -23,7 +23,7 @@ class Task1:
                     doc = self.nlp(text)
                     example = Example.from_dict(doc, annotation)
                     self.nlp.update([example], sgd=optimizer)
-            self.nlp.to_disk("new_ner")
+            ner.to_disk("new_ner")
 
     def add_trainset(self):
         return [
@@ -36,6 +36,10 @@ class Task1:
         ]
 
     def test_model(self, text):
-        doc = self.nlp(text)
+        nlp = spacy.load('en_core_web_md', disable=['ner'])
+        ner = nlp.create_pipe("ner")
+        ner.from_disk("new_ner")
+        nlp.add_pipe("ner", "new_ner")
+        doc = nlp(text)
         for ent in doc.ents:
             print(ent.text, ent.label_)
