@@ -1,1 +1,0 @@
-from spacy.pipeline.textcat_multilabel import DEFAULT_MULTI_TEXTCAT_MODEL
