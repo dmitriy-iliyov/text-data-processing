@@ -16,12 +16,16 @@ class TaskSolver:
 
     def _prepare_data(self):
         _service_results = []
+        _user_utterances = []
         _speakers_utterances = []
 
         for dialogue in self._json_data:
             for turn in dialogue["turns"]:
-                if turn['speaker'] == "USER":
+                if turn['speaker'] == "USER" or turn['speaker'] == "SYSTEM":
                     _speakers_utterances.append(f"{turn['utterance']}")
+                    if turn['speaker'] == "USER":
+                        _user_utterances.append(f"{turn['utterance']}")
+
                 for frame in turn["frames"]:
                     if "service_results" in frame:
                         for result in frame["service_results"]:
@@ -29,7 +33,8 @@ class TaskSolver:
                             _service_results.append(result_text)
 
         self._task_1_doc = self._nlp(' '.join(_service_results))
-        self._task_2_doc = self._nlp(' '.join(_speakers_utterances))
+        self._task_2_doc = self._nlp(' '.join(_user_utterances))
+        self._task_3_doc = self._nlp(' '.join(_speakers_utterances))
 
     def do_task_1(self):
 
@@ -76,3 +81,17 @@ class TaskSolver:
         for match_id, start, end in matches:
             m_span = self._task_2_doc[start:end]
             print(start, end, m_span.text)
+
+    def do_task_3(self):
+
+        # task 3 виділення намірів за допомогою синтаксичних залежностей
+
+        intense = []
+        for sentence in self._task_3_doc.sents:
+            for token in sentence:
+                if token.dep_ == "dobj":
+                    tmp = {"verb": token.head.text,
+                           "direct object": token.text,
+                           "conjunctions": [t.text for t in token.conjuncts]}
+                    intense.append(tmp)
+                    print(tmp)
