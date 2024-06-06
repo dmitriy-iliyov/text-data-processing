@@ -15,7 +15,7 @@ def do(content):
     # b
     print("частини мови")
     pos_tagged = pos_tag(divided_to_words)
-    print(pos_tagged)
+    print(pos_tagged[1:])
 
     # c
     print("корені слів")
